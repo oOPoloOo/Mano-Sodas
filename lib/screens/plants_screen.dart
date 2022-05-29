@@ -35,7 +35,8 @@ class PlantsScreen extends StatelessWidget {
         activeCamerasList.add(camera);
       }
     }
-    plantCon.activeCamCnt.value = activeCamerasList.length;
+    //plantCon.activeCamCnt.value = activeCamerasList.length;
+    var activeCamCnt = activeCamerasList.length;
 
     //meta klaida, nes tuscias o bandau paimt ilgi
 
@@ -43,61 +44,70 @@ class PlantsScreen extends StatelessWidget {
     // var camerasList = plantController.camerasDeviceData[0].cameras;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Augalai'),      
+        title: const Text('Augalai'),
       ),
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
+      body: Column(//Container
+          // width: double.infinity,
+          // height: double.infinity,
+          children: <Widget>[
+        Expanded(
+          //Center
+          //width: MediaQuery.of(context).size.width,
+          // margin: EdgeInsets.all(10),
+          child: //Center(
+              //Column
+              // mainAxisAlignment: MainAxisAlignment.start,
+              // <Widget>[
               () {
-                if (plantCon.activeCamCnt.value == 0) {
-                  return ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemCount: plantCon.activeCamCnt.value + 2,
-                    itemBuilder: (context, index) {
-                      if (index == 0) {
-                        return AddPlantListTile();
-                      }
-                      if (index == 1) {
-                        return Center(
-                          child:  Column(
-                            children: const [
-                              SizedBox(width: 0, height: 250),
-                              Text(
-                                'Nėra kamerų priskirtų stebėti augalus',
-                                style: TextStyle(color: Colors.grey, fontSize: 20),
-                              ),
-                            ],
+            if (camerasCnt == 0) {
+              //
+              return ListView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: camerasCnt + 2, //
+                itemBuilder: (context, index) {
+                  if (index == 0) {
+                    return AddPlantListTile();
+                  }
+                  if (index == 1) {
+                    return Center(
+                      child: Column(
+                        children: const [
+                          SizedBox(width: 0, height: 250),
+                          Text(
+                            'Nėra kamerų priskirtų stebėti augalus',
+                            style: TextStyle(color: Colors.grey, fontSize: 20),
                           ),
-                        );
-                      }
-                      plantCon.activeCamCnt.value -= 2;
-                      return Plant(activeCamerasList, index);
-                    },
-                  );
-                } else {
-                  return ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemCount: plantCon.activeCamCnt.value + 1,
-                    itemBuilder: (context, index) {
-                      if (index == 0) {
-                        return AddPlantListTile();
-                      }
-                      plantCon.activeCamCnt.value -= 1;
-                      return Plant(activeCamerasList, index);
-                    },
-                  );
-                }
-              }(),
-            ],
-          ),
+                        ],
+                      ),
+                    );
+                  }
+                  //plantCon.activeCamCnt.value -= 2;
+                  index -= 2;
+                  return SizedBox(
+                      width: 0, height: 0); //Plant(activeCamerasList, index);
+                },
+              );
+            } else {
+              return ListView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: camerasCnt + 1, //
+                itemBuilder: (context, index) {
+                  if (index == 0) {
+                    return AddPlantListTile();
+                  }
+                  //plantCon.activeCamCnt.value -= 1;
+                  index -= 1;
+                  return Plant(allCamerasList, index);
+                },
+              );
+            }
+          }(),
+          //  ],
+          // ), //children
         ),
-      ),
+      ]),
     );
   }
 }
