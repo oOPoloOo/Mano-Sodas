@@ -21,10 +21,10 @@ class Plant extends StatelessWidget {
     String? cameraSerial; 
 
 
-    // if(observablePlants.isNotEmpty)
-    // {
-    //    cameraSerial = observablePlants[index].camSerialNumber;
-    // }else cameraSerial = '';
+    if(observablePlants.isNotEmpty)
+    {
+       cameraSerial = observablePlants[index].camSerialNumber;
+    }else cameraSerial='';
     
   
 

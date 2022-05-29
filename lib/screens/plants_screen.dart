@@ -25,7 +25,6 @@ class PlantsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Jei tik kameros butu be device
     var camerasCnt = plantCon.camerasDeviceData.length;
     var allCamerasList = plantCon.camerasDeviceData;
     List<Camera> activeCamerasList = [];
@@ -35,36 +34,22 @@ class PlantsScreen extends StatelessWidget {
         activeCamerasList.add(camera);
       }
     }
-    //plantCon.activeCamCnt.value = activeCamerasList.length;
+
     var activeCamCnt = activeCamerasList.length;
 
-    //meta klaida, nes tuscias o bandau paimt ilgi
-
-    // var camerasCnt =  plantController.camerasDeviceData[0].cameras!.length;
-    // var camerasList = plantController.camerasDeviceData[0].cameras;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Augalai'),
       ),
-      body: Column(//Container
-          // width: double.infinity,
-          // height: double.infinity,
-          children: <Widget>[
+      body: Column(children: <Widget>[
         Expanded(
-          //Center
-          //width: MediaQuery.of(context).size.width,
-          // margin: EdgeInsets.all(10),
-          child: //Center(
-              //Column
-              // mainAxisAlignment: MainAxisAlignment.start,
-              // <Widget>[
-              () {
-            if (camerasCnt == 0) {
+          child: () {
+            if (activeCamCnt == 0) {
               //
               return ListView.builder(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
-                itemCount: camerasCnt + 2, //
+                itemCount: activeCamCnt + 2, //
                 itemBuilder: (context, index) {
                   if (index == 0) {
                     return AddPlantListTile();
@@ -82,30 +67,27 @@ class PlantsScreen extends StatelessWidget {
                       ),
                     );
                   }
-                  //plantCon.activeCamCnt.value -= 2;
+
                   index -= 2;
-                  return SizedBox(
-                      width: 0, height: 0); //Plant(activeCamerasList, index);
+                  return SizedBox(width: 0, height: 0);
                 },
               );
             } else {
               return ListView.builder(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
-                itemCount: camerasCnt + 1, //
+                itemCount: activeCamCnt + 1, //
                 itemBuilder: (context, index) {
                   if (index == 0) {
                     return AddPlantListTile();
                   }
-                  //plantCon.activeCamCnt.value -= 1;
+
                   index -= 1;
-                  return Plant(allCamerasList, index);
+                  return Plant(activeCamerasList, index);
                 },
               );
             }
           }(),
-          //  ],
-          // ), //children
         ),
       ]),
     );
