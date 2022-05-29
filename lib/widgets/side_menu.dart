@@ -5,9 +5,7 @@ import 'package:mano_sodas_final/controllers/controllers.dart';
 import 'package:mano_sodas_final/constants/constants.dart';
 import 'package:get/get.dart' as getx;
 
-
 class NavDrawer extends StatelessWidget {
-
   final AuthController authController = AuthController.to;
   @override
   Widget build(BuildContext context) {
@@ -22,18 +20,17 @@ class NavDrawer extends StatelessWidget {
               style: TextStyle(color: Colors.white, fontSize: 25),
             ),
             decoration: BoxDecoration(
-                color: Colors.blue,
-                //Neranda paveikslelio
-                // image: DecorationImage(
-                //     fit: BoxFit.fill,
-                //     image: AssetImage('assets/images/cover.jpg'))
-                    ),
+              color: Colors.blue,
+              //Neranda paveikslelio
+              // image: DecorationImage(
+              //     fit: BoxFit.fill,
+              //     image: AssetImage('assets/images/cover.jpg'))
+            ),
           ),
           ListTile(
             leading: Icon(Icons.photo_camera),
             title: Text('Augalai'),
-             onTap: () => getx.Get.toNamed(plantsRouteName),
-             
+            onTap: () => getx.Get.toNamed(plantsRouteName),
           ),
           ListTile(
             leading: Icon(Icons.verified_user),
@@ -61,17 +58,15 @@ class NavDrawer extends StatelessWidget {
             onTap: () => {
               // saveLogoutState(context)
               authController.signOut()
-             //print('tapped sign out')
-              },
+              //print('tapped sign out')
+            },
           ),
         ],
       ),
-
     );
   }
 
-    // void saveLogoutState(BuildContext context) {
-    // Provider.of<LoginState>(context, listen: false).loggedIn = false;
+  // void saveLogoutState(BuildContext context) {
+  // Provider.of<LoginState>(context, listen: false).loggedIn = false;
   // }
 }
-

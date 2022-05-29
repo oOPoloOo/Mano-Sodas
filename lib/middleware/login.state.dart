@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mano_sodas_final/constants/constants.dart';
 import 'package:mano_sodas_final/controllers/controllers.dart';
 import 'package:mano_sodas_final/router/routes.dart';
 
@@ -14,7 +15,7 @@ class AuthMiddleware extends GetMiddleware {
   RouteSettings? redirect(String? route) {
      
     print("INSIDE MIDDLEWARE, validated: ${authController.authenicated.value}");
-    if(authController.authenicated.value == false) {return  RouteSettings(name: '/register'); }
+    if(authController.authenicated.value == false) {return  RouteSettings(name: createAccountRouteName); }
       
   }
 
