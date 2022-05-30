@@ -4,7 +4,7 @@ import { relative } from 'path';
 // import { Camera as CameraEntity } from 'src/typeorm/Camera';
 // import { MainDevice as MainDeviceEntity } from 'src/typeorm/MainDevice';
 import { User as UserEntity } from 'src/typeorm/User';
-import { UserData as UserDataEntity } from 'src/typeorm/UserData';
+import { UserData, UserData as UserDataEntity } from 'src/typeorm/UserData';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from 'src/users/dto/CreateUser.dto';
 import { encodePassword } from 'src/utils/bcrypt';
@@ -17,15 +17,15 @@ export class UsersService {
     constructor(
         @InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>,
         @InjectRepository(UserDataEntity) private readonly userDataRepository: Repository<UserDataEntity>,
-        // @Inject('DEVICE_SERVICE') private readonly devicesService: DevicesService
-        ) { }
+         @Inject('DEVICE_SERVICE') private readonly devicesService: DevicesService
+    ) { }
 
 
 
 
-    async createUser(createUserDto: CreateUserDto, mainDevice: MainDevice ) {
-        
-        
+    async createUser(createUserDto: CreateUserDto, mainDevice: MainDevice) {
+
+
         const newUser = this.userRepository.create(
             {
                 state: createUserDto.state,
@@ -50,19 +50,24 @@ export class UsersService {
         return this.userRepository.find();
     }
 
-    getUsersData() {
 
-        return this.userDataRepository.find();
-    }
+    async getUserByEmail(email: string) {
+        const userDataa = await this.findUserDataByEmail(email);
 
-    getUserDataById(id: number) {
-
-        const userData = this.userDataRepository.findOne({
+        return this.userRepository.findOne({
             where: {
-                id: id
+                userData: userDataa
             }
         });
-        return userData;
+    }
+
+
+    findUserByDevice(device: MainDevice) {
+        return this.userRepository.findOne({
+            where: {
+                mainDevice: device,
+            }
+        });
     }
 
     deleteUserById(id: number) {
@@ -79,6 +84,17 @@ export class UsersService {
         return allUsers;
     }
 
+    /////////// Device ///////////////
+
+   
+    async getDeviceByUser(userr: UserEntity) {
+        const device = await this.devicesService.findDeviceByUser(userr);
+
+        return device;
+    }
+
+    /////////////// User data ////////////////////
+
     findUserDataByEmail(email: string) {
         return this.userDataRepository.findOne({
             where: {
@@ -86,13 +102,20 @@ export class UsersService {
             }
         });
     }
-    
-    findUserByDevice(device: MainDevice) {
-        return this.userRepository.findOne({
+
+    getUsersData() {
+
+        return this.userDataRepository.find();
+    }
+
+    getUserDataById(id: number) {
+
+        const userData = this.userDataRepository.findOne({
             where: {
-               mainDevice: device,
+                id: id
             }
         });
+        return userData;
     }
 
     ////Testiniai sketch apacioj

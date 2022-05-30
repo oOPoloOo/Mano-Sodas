@@ -1,4 +1,4 @@
-import { Body, ClassSerializerInterceptor, Controller, Delete, Get, Inject, Param, ParseIntPipe, Post, UseGuards, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, Delete, Get, Inject, Param, ParseIntPipe, Post, Req, UseGuards, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
 import { AuthenticatedGuard } from 'src/auth/utils/LocalGuard';
 import { DevicesService } from 'src/devices/services/devices/devices.service';
 
@@ -111,5 +111,17 @@ export class UsersController {
     @Delete('delete/all')
     deleteAllUsers() {
         return this.userService.deleteAllUsers();
+    }
+
+    //Dirbu
+    @Post('camera/all')
+    async getAllUserCamerasByEmail(@Req() req: Request) {
+
+        const stringFromJson = req.body['emailAddress'];
+       
+        const user = await this.userService.getUserByEmail(stringFromJson);
+        const device = await this.userService.getDeviceByUser(user);
+        const userCameras = this.devicesService.findAllCamerasByDevice(device);
+        return userCameras;
     }
 }

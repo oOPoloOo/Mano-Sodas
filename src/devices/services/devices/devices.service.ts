@@ -7,6 +7,7 @@ import { MainDevice } from 'src/typeorm/MainDevice';
 import { Repository } from 'typeorm';
 import { Camera, Camera as CameraEntity } from 'src/typeorm/Camera';
 import { Plant as PlantEntity } from 'src/typeorm/Plant';
+import { User } from 'src/typeorm/User';
 
 @Injectable()
 export class DevicesService {
@@ -44,8 +45,18 @@ export class DevicesService {
                 serialNumber: serial
             }
         });
-    }
 
+        // return this.deviceRepository.findOne(v => v.serialNumber == serial)
+    }
+    
+    findDeviceByUser(userr: User) {
+
+        return this.deviceRepository.findOne({
+            where: {
+                user: userr
+            }
+        });        
+    }
 
     findAllDevices() {
         return this.deviceRepository.find();

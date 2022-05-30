@@ -52,11 +52,12 @@ export class DevicesController {
         return this.deviceService.findAllCmeras();
     }
 
-    @Post('camera/all/user')
-    getAllUserCameras(@Req() req: Request) {
+    @Post('camera/all/user/serial')
+    getAllUserCamerasBySerial(@Req() req: Request) {
 
         const stringFromJson = req.body['serialNumber'];
         const userDeviceCameras = this.deviceService.findAllUserCmeras(stringFromJson);
         return userDeviceCameras;
     }
+    
 }

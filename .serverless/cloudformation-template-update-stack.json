@@ -161,7 +161,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/mano-sodas-api/dev/1653696102017-2022-05-28T00:01:42.017Z/mano-sodas-api.zip"
+          "S3Key": "serverless/mano-sodas-api/dev/1653919497097-2022-05-30T14:04:57.097Z/mano-sodas-api.zip"
         },
         "Handler": "dist/lambda.handler",
         "Runtime": "nodejs14.x",
@@ -179,14 +179,14 @@
         "ApiLogGroup"
       ]
     },
-    "ApiLambdaVersionVvt8yxuEnJ7ThEzd817Fd5v75Z4uhDBAqRd8DKCwcc": {
+    "ApiLambdaVersionHIaN94lzXJCKttB6WDQZPtM7abSBp7Km4ErP4acbUk": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ApiLambdaFunction"
         },
-        "CodeSha256": "9Bv8Z7tJG1G6RhoyfOyBhDIlzcisBf26SOpQ/yOyPBA="
+        "CodeSha256": "aVd59VdQw3NDzJ67v21Qbsl+A3I4vmY3NmDbbVTMaH0="
       }
     },
     "ApiGatewayRestApi": {
@@ -262,7 +262,7 @@
         "ApiLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1653696068361": {
+    "ApiGatewayDeployment1653919460014": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -324,7 +324,7 @@
     "ApiLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ApiLambdaVersionVvt8yxuEnJ7ThEzd817Fd5v75Z4uhDBAqRd8DKCwcc"
+        "Ref": "ApiLambdaVersionHIaN94lzXJCKttB6WDQZPtM7abSBp7Km4ErP4acbUk"
       },
       "Export": {
         "Name": "sls-mano-sodas-api-dev-ApiLambdaFunctionQualifiedArn"
