@@ -11,6 +11,7 @@ import { UserAlreadyExists } from 'src/users/exceptions/UserAlreadyExists.except
 import { UserNotFoundException } from 'src/users/exceptions/UserNotFound.exception';
 import { UsersService } from 'src/users/services/users/users.service';
 import { SerializedUserData, UserData } from 'src/users/types';
+import { Request } from 'express';
 
 //Su cloud veikia tik post metodai, juos naudot vietoj get
 //IsCloud negrazina cokkies!
@@ -113,14 +114,15 @@ export class UsersController {
         return this.userService.deleteAllUsers();
     }
 
-    //Dirbu
+    Dirbu
     @Post('camera/all')
     async getAllUserCamerasByEmail(@Req() req: Request) {
 
-        const stringFromJson = req.body['emailAddress'];
+        const stringFromJson =  req.body['emailAddress'];
        
         const user = await this.userService.getUserByEmail(stringFromJson);
-        const device = await this.userService.getDeviceByUser(user);
+       // const device = await this.userService.getDeviceByUser(user);
+       const device = await this.devicesService.findDeviceByUser(user);
         const userCameras = this.devicesService.findAllCamerasByDevice(device);
         return userCameras;
     }

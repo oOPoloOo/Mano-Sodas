@@ -6,6 +6,8 @@ import { DevicesModule } from './devices/devices.module';
 // import { CamerasModule } from './cameras/cameras.module';
  import allEntities from './typeorm';
 
+import { FileUploadModule } from './file_upload/file_upload.module';
+
 
 @Module({
   imports: [
@@ -20,9 +22,11 @@ import { DevicesModule } from './devices/devices.module';
       entities: allEntities,
       synchronize: true,
     }),    
+    
     DevicesModule,
     // CamerasModule,
     UsersModule,
+    FileUploadModule,
   ],
   controllers: [],
   providers: [],

@@ -14,7 +14,7 @@ import { UsersService } from './services/users/users.service';
 
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, UserData,MainDevice, Camera, Plant])],
+  imports: [TypeOrmModule.forFeature([User, UserData, MainDevice, Camera, Plant])],
   controllers: [UsersController],
   providers: [
     {

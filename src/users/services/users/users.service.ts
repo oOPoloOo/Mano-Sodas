@@ -17,7 +17,7 @@ export class UsersService {
     constructor(
         @InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>,
         @InjectRepository(UserDataEntity) private readonly userDataRepository: Repository<UserDataEntity>,
-         @Inject('DEVICE_SERVICE') private readonly devicesService: DevicesService
+        // @Inject('DEVICE_SERVICE') private readonly devicesService: DevicesService
     ) { }
 
 
@@ -87,11 +87,11 @@ export class UsersService {
     /////////// Device ///////////////
 
    
-    async getDeviceByUser(userr: UserEntity) {
-        const device = await this.devicesService.findDeviceByUser(userr);
+    // async getDeviceByUser(userr: UserEntity) {
+    //     const device = await this.devicesService.findDeviceByUser(userr);
 
-        return device;
-    }
+    //     return device;
+    // }
 
     /////////////// User data ////////////////////
 
