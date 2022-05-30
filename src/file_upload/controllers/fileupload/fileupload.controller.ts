@@ -23,7 +23,11 @@ export class FileUploadController {
   //Parametro pavadinimas, kuris kaiko nuotrauka - file
   @UseInterceptors(FileInterceptor('file'))
   async upload(@UploadedFile() file /*file: Express.Multer.File*/) {
-    return await this.fileUploadService.upload(file);
+    
+    
+    let reaponseData = await this.fileUploadService.uploadFile(file)
+    const imgLocation = reaponseData;
+    return reaponseData;
   }
 
 }
