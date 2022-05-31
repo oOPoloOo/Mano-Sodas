@@ -22,13 +22,12 @@ export class Camera {
         default: false,
     })
     assigned: boolean;
-
-    //NZN as reik!
-    // @Column({        
-    //     nullable: false,
-    //     default: '',
-    // })
-    // name: string;
+   
+    @Column({        
+        nullable: false,
+        default: '',
+    })
+    camName: string;
     
      // jei istrina pagrindini prietaisa kameras palikt nepriskirtas
     @ManyToOne(()=> MainDevice, mainDevice => mainDevice.cameras, {onDelete: 'SET NULL'})

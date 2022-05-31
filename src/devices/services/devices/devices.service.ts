@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 // import { CamerasService } from 'src/cameras/services/cameras/cameras.service';
 import { CreateDeviceCameraDto } from 'src/devices/dto/CreateDeviceCamera.dto';
@@ -38,7 +38,7 @@ export class DevicesService {
         return this.deviceRepository.save(newDevice);
     }
 
-   findDeviceBySerial(serial: string) {
+    findDeviceBySerial(serial: string) {
 
         return this.deviceRepository.findOne({
             where: {
@@ -48,14 +48,14 @@ export class DevicesService {
 
         // return this.deviceRepository.findOne(v => v.serialNumber == serial)
     }
-    
+
     findDeviceByUser(userr: User) {
 
         return this.deviceRepository.findOne({
             where: {
                 user: userr
             }
-        });        
+        });
     }
 
     findAllDevices() {
@@ -105,23 +105,23 @@ export class DevicesService {
 
     findAllCmeras() {
         return this.cameraRepository.find();
-    } 
+    }
 
 
     findAllCamerasByDevice(device: MainDevice) {
 
-        return this.cameraRepository.find({ 
-                    where: {
-                        mainDevice: device
-                    }
-                });
-    } 
+        return this.cameraRepository.find({
+            where: {
+                mainDevice: device
+            }
+        });
+    }
 
 
-    async findAllUserCmeras(deviceSerial: string) {
+    async findAllUserCmerasBySerial(deviceSerial: string) {
 
-        const userDevice = await this.findDeviceBySerial(deviceSerial);        
-        const allDeviceCameras = await this.findAllCamerasByDevice(userDevice);        
+        const userDevice = await this.findDeviceBySerial(deviceSerial);
+        const allDeviceCameras = await this.findAllCamerasByDevice(userDevice);
         return allDeviceCameras;
     }
 
@@ -135,7 +135,56 @@ export class DevicesService {
 
         // return this.deviceRepository.findOne(v => v.serialNumber == serial)
     }
-   
+
+    //Dirbu
+    async UpdateCameraName(camSerial: string, name: string) {
+
+        const camera = await this.cameraRepository.findOne({
+            where: {
+                camSerialNumber: camSerial
+            }
+
+        });
+        camera.camName = name;
+        const updatedCam = await this.cameraRepository.save(camera);
+        Logger.debug('kamera pervadinta', [updatedCam.camName,
+        updatedCam.assigned,
+        updatedCam.camSerialNumber]);
+        // return this.deviceRepository.findOne(v => v.serialNumber == serial)
+    }
+
+    async SetCameraActive(camSerial: string) {
+
+        const camera = await this.cameraRepository.findOne({
+            where: {
+                camSerialNumber: camSerial
+            }
+
+        });
+        camera.assigned = true;
+        const updatedCam = await this.cameraRepository.save(camera);
+        Logger.debug('kamera pervadinta', [updatedCam.camName,
+            updatedCam.assigned,
+            updatedCam.camSerialNumber]);
+        // return this.deviceRepository.findOne(v => v.serialNumber == serial)
+    }
+
+    async SetCameraInactive(camSerial: string) {
+
+        const camera = await this.cameraRepository.findOne({
+            where: {
+                camSerialNumber: camSerial
+            }
+
+        });
+        camera.assigned = false;
+        const updatedCam = await this.cameraRepository.save(camera);
+        Logger.debug('kamera pervadinta', [updatedCam.camName,
+            updatedCam.assigned,
+            updatedCam.camSerialNumber]);
+        // return this.deviceRepository.findOne(v => v.serialNumber == serial)
+    }
+
 
 }
 

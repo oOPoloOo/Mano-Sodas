@@ -114,8 +114,8 @@ export class UsersController {
         return this.userService.deleteAllUsers();
     }
 
-    Dirbu
-    @Post('camera/all')
+    
+    @Post('camera/email/all')
     async getAllUserCamerasByEmail(@Req() req: Request) {
 
         const stringFromJson =  req.body['emailAddress'];

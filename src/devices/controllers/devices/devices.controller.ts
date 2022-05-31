@@ -56,8 +56,37 @@ export class DevicesController {
     getAllUserCamerasBySerial(@Req() req: Request) {
 
         const stringFromJson = req.body['serialNumber'];
-        const userDeviceCameras = this.deviceService.findAllUserCmeras(stringFromJson);
+        const userDeviceCameras = this.deviceService.findAllUserCmerasBySerial(stringFromJson);
         return userDeviceCameras;
     }
+
+    @Post('camera/serial/update/name')
+    updateCamerasNameBySerial(@Req() req: Request) {
+
+        const camSerialNumberFromJson = req.body['camSerialNumber'];
+        const camNameFromJson = req.body['camName'];
+        const userDeviceCamera = this.deviceService.UpdateCameraName(camSerialNumberFromJson,camNameFromJson);
+        //return userDeviceCamera;
+    }
+ 
+ 
+    @Post('camera/serial/update/isActive')
+    setCameraActiveBySerial(@Req() req: Request) {
+
+        const camSerialNumberFromJson = req.body['camSerialNumber'];
+        const userDeviceCamera = this.deviceService.SetCameraActive(camSerialNumberFromJson);
+        //return userDeviceCamera;
+    }
+
+    @Post('camera/serial/update/isInactive')
+    setCameraInactiveBySerial(@Req() req: Request) {
+
+        const camSerialNumberFromJson = req.body['camSerialNumber'];
+        const userDeviceCamera = this.deviceService.SetCameraInactive(camSerialNumberFromJson);
+        //return userDeviceCamera;
+    }
+    
+
+    
     
 }
