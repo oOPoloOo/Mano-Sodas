@@ -64,13 +64,13 @@ export class FileUploadService {
       secretAccessKey: 'rNt6y35wFqHvFSax8EdKhFlvfS79Vwe+N4uWRxB4',
     });
 
-  async uploadFile(file) {
+  async uploadFile(file, PhotoDTO) {
     const { originalname } = file;
 
-    await this.s3_upload(file.buffer, this.AWS_S3_BUCKET, originalname, file.mimetype);
+    await this.s3_upload(file.buffer, this.AWS_S3_BUCKET, originalname, file.mimetype,PhotoDTO);
   }
 
-  async s3_upload(file, bucket, name, mimetype) {
+  async s3_upload(file, bucket, name, mimetype,PhotoDTO) {
     const params =
     {
       Bucket: bucket,
@@ -93,7 +93,9 @@ export class FileUploadService {
         // console.log(data.Location) veikia
         //return data.Location; neveikia, negalima cia returnint
         //kviest metoda reik kuris saugo irasa
-        this.pictureService.createPicture(data.Location, '2022-05-31');
+
+        //camSerialNumber, picLink, date
+        this.pictureService.createPicture(PhotoDTO, data.Location, '2022-05-31');
       })
         .catch(err => console.log(err))
 

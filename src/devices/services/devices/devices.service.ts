@@ -25,7 +25,7 @@ export class DevicesService {
         let newCameras: Array<Camera> = [];
 
         //Creating multiple camera/plant entities
-        for (let camSerial of createDeviceCameraDto.camserialNumber) {
+        for (let camSerial of createDeviceCameraDto.camSerialNumber) {
             let camera = await this.createCameraPlant(camSerial);
             newCameras.push(camera);
         }
@@ -38,7 +38,7 @@ export class DevicesService {
         return this.deviceRepository.save(newDevice);
     }
 
-    findDeviceBySerial(serial: string) {
+   findDeviceBySerial(serial: string) {
 
         return this.deviceRepository.findOne({
             where: {
@@ -125,6 +125,16 @@ export class DevicesService {
         return allDeviceCameras;
     }
 
+    findCameraBySerial(camSerial: string) {
+
+        return this.cameraRepository.findOne({
+            where: {
+                camSerialNumber: camSerial
+            }
+        });
+
+        // return this.deviceRepository.findOne(v => v.serialNumber == serial)
+    }
    
 
 }

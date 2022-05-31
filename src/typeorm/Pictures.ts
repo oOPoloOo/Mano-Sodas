@@ -28,7 +28,15 @@ export class Pictures {
     })
     data: string; // paziuret del formato
 
-    
+    @Column()
+    camSerialNumber: string;
+   
+    @Column({
+        name: 'is_seen',
+        nullable: false,
+        default: false,
+    })
+    isSeen: boolean;
 
     //Vienas irenginys turi daug kameru
     //kei kamera pasalinama is db pasalinamos ir jos nuotraukos

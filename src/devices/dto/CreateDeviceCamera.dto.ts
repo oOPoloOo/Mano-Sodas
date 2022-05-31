@@ -11,7 +11,7 @@ export class CreateDeviceCameraDto{
     serialNumber: string;
 
     @IsNotEmpty()
-    camserialNumber: string[];
+    camSerialNumber: string[];
 
     //vardai neturi sutapti su typeorm/User, bet jei nesutampa neveik?!
 }
