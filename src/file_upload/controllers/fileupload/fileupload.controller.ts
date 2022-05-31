@@ -1,12 +1,18 @@
 
-import { Controller, Post, Req, Res, UseInterceptors, UploadedFile } from '@nestjs/common';
-import { FileUploadService } from 'src/file_upload/services/fileupload/fileupload.service';
+import { Controller, Post, Req, Res, UseInterceptors, UploadedFile, Inject } from '@nestjs/common';
+import {  FileUploadService } from 'src/file_upload/services/fileupload/fileupload.service';
 import { Request, Response,Express } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { FileUploadData } from 'src/file_upload/model/fileUploadInfo';
+import { plainToClass, plainToInstance } from 'class-transformer';
 
 @Controller('fileupload')
 export class FileUploadController {
-  constructor(private readonly fileUploadService: FileUploadService) { }
+  constructor(
+    @Inject('UPLOAD_SERVICE')
+    private readonly uploadService: FileUploadService
+  ) { }
+
 
   // @Post()
   // async create(@Req() request: Request, @Res() response: Response) {
@@ -24,10 +30,27 @@ export class FileUploadController {
   @UseInterceptors(FileInterceptor('file'))
   async upload(@UploadedFile() file /*file: Express.Multer.File*/) {
     
-    
-    let reaponseData = await this.fileUploadService.uploadFile(file)
-    const imgLocation = reaponseData;
-    return reaponseData;
+    let fileUrlLocation = await this.uploadService.uploadFile(file)
+   
+    //let reaponseData =  this.fileData.getFileDataObject();
+     
+
+    //  console.log('fileUrlLocation');
+    //  console.log(reaponseData.Location);
+    //  console.log('reaponseData:');
+    //  console.log(reaponseData);
+    //  console.log('readableData');
+    // console.log(jsonData);
+    //const imgLocation = reaponseData;
+    //return reaponseData;
+    // let imageUrl = await this.fileUploadService.uploadFile(file);
+   // const imageURL =  imageLocationInfo['Bucket']; taip neveik 
+   //const imageURL =  imageLocationInfo.valueOf('');
+    // console.log(imageUrl);
+    //console.log(imageURL);
+
+    // const imgLocation = reaponseData;
+    // return reaponseData;
   }
 
 }

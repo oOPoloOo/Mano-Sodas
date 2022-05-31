@@ -1,20 +1,61 @@
-import { Req, Res, Injectable, Logger } from '@nestjs/common';
+import { Req, Res, Injectable, Logger, Inject } from '@nestjs/common';
 // import * as multer from 'multer';
+
+//Trecias bandymas
 import * as AWS from 'aws-sdk';
 // import * as multerS3 from 'multer-s3';
 
 
 //Antras bandymas 
-// import { S3 } from 'aws-sdk';
+import { S3 } from 'aws-sdk';
+import { plainToInstance } from 'class-transformer';
+import { FileUploadData } from 'src/file_upload/model/fileUploadInfo';
+import { PicturesService } from 'src/pictures/services/pictures/pictures.service';
 
+// @Injectable()
+// export class FileData {
+//   private _data: S3.ManagedUpload.SendData;
 
+//    getFileDataObject(): FileUploadData {    
 
+//     const jsonData = JSON.stringify(this._data);
+//     let dataInstance = plainToInstance(FileUploadData, jsonData);
 
+//     return dataInstance;
+//   }
 
+//    setFileData(info : S3.ManagedUpload.SendData) {
+//      this._data = info;
+//   }
+// }
+
+// @Injectable()
+// export class FileData {
+//   private _data: S3.ManagedUpload.SendData;
+
+//    getFileDataObject(): FileUploadData {    
+
+//     const jsonData = JSON.stringify(this._data);
+//     let dataInstance = plainToInstance(FileUploadData, jsonData);
+
+//     return dataInstance;
+//   }
+
+//    setFileData(info : S3.ManagedUpload.SendData) {
+//      this._data = info;
+//   }
+// }
+
+//2 bandymas
+const AWS_S3_BUCKET_NAME = 'mano-sodas-api-dev-serverlessdeploymentbucket-kp1pz0ybch8k';
 
 @Injectable()
 export class FileUploadService {
-  constructor() { }
+  constructor(
+    @Inject('PICTURE_SERVICE') private readonly pictureService: PicturesService
+  ) { }
+
+
 
   AWS_S3_BUCKET = 'mano-sodas-api-dev-serverlessdeploymentbucket-kp1pz0ybch8k';
   s3 = new AWS.S3
@@ -22,13 +63,6 @@ export class FileUploadService {
       accessKeyId: 'AKIAUIJZS3SS2LORSWUR',
       secretAccessKey: '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',
     });
-
-
-  // const s3 = new AWS.S3();
-  // AWS.config.update({
-  // accessKeyId: 'AKIAUIJZS3SS2LORSWUR',
-  // secretAccessKey: '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' ,
-  // });
 
   async uploadFile(file) {
     const { originalname } = file;
@@ -54,14 +88,26 @@ export class FileUploadService {
     console.log(params);
 
     try {
-      let s3Response = await this.s3.upload(params).promise();
 
-      console.log(s3Response);
+      let s3Response = await this.s3.upload(params).promise().then((data) => {
+        // console.log(data.Location) veikia
+        //return data.Location; neveikia, negalima cia returnint
+        //kviest metoda reik kuris saugo irasa
+        this.pictureService.createPicture(data.Location, '2022-05-31');
+      })
+        .catch(err => console.log(err))
+
     }
     catch (e) {
       console.log(e);
     }
   }
+
+}
+
+
+
+
 
 
 
@@ -77,7 +123,7 @@ export class FileUploadService {
 
   // async uploadS3(file, bucket, name) {
   //     const s3 = this.getS3();
-  //     const params = {        
+  //     const params = {
   //         Bucket: bucket,
   //         Key: String(name),
   //         Body: file,
@@ -88,6 +134,7 @@ export class FileUploadService {
   //             Logger.error(err);
   //             reject(err.message);
   //         }
+  //         console.log(data);
   //         resolve(data);
   //         });
   //     });
@@ -103,7 +150,7 @@ export class FileUploadService {
 
 
 
-  //  Neveikia 
+  //  Neveikia
   ///////////////////////////////////////////
   // const AWS_S3_BUCKET_NAME = 'mano-sodas-api-dev-serverlessdeploymentbucket-kp1pz0ybch8k';
 
@@ -138,4 +185,3 @@ export class FileUploadService {
   //     },
   //   }),
   // }).array('upload', 1); // failo pavadinimas upload, ikeliamu failu kiekis
-}
