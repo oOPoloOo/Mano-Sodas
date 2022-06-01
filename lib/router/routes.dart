@@ -17,16 +17,15 @@ import 'package:mano_sodas_final/screens/ui.dart';
 import 'package:mano_sodas_final/screens/auth/auth.dart';
 import 'package:mano_sodas_final/constants/constants.dart';
 import '../middleware/login.state.dart';
-import '../middleware/plants.retrieval.dart';
 import '../middleware/relogin.action.dart';
 
 class AppRoutes {
   AppRoutes._(); //this is to prevent anyone from instantiating this object
   static final routes = [
     //Custom middleware neveikia
-    GetPage(name: loginRouteName, page: () => LoginView(), middlewares: [ReloginMiddleware()]),
-    GetPage(name: createAccountRouteName, page: () => RegisterView(),middlewares: [ReloginMiddleware()]),
-    GetPage(name: plantsRouteName, page: () => PlantsScreen(), middlewares: [PlantsRetrievalMiddleware()]),
+    GetPage(name: loginRouteName, page: () => LoginView()/*, middlewares: [ReloginMiddleware()]*/),
+    GetPage(name: createAccountRouteName, page: () => RegisterView()/*,middlewares: [ReloginMiddleware()]*/),
+    GetPage(name: plantsRouteName, page: () => PlantsScreen()),
     GetPage(name: calendarRouteName, page: () => CalendarScreen()),
     GetPage(name: historyRouteName, page: () => HistoryScreen()),
     GetPage(name: settingsRouteName, page: () => SettingsScreen()),

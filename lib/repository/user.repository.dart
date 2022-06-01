@@ -7,13 +7,12 @@ import '../model/user.registered.response.model.dart';
 import 'package:dio/dio.dart';
 import 'package:mano_sodas_final/api/client.dart';
 
-
 class UserRepository {
   //kas yra late
   late Dio apiClient;
   //arba db
   //arba sharedpreferences
- 
+
   UserRepository() {
     apiClient = client();
     //Cia nurodyt kitus saltinius jei butu
@@ -29,24 +28,36 @@ class UserRepository {
   //Gaunami  userRegistered itraukia ir  user duomenis
   //Future<UserRegistered> - kai grazinamas json objektas, kuri reikia mappint
   Future registerUser(UserRegistrationReq userRegistered) async {
-    
-    Response response = await register(apiClient, userRegistered.toJson());  
+    Response response = await register(apiClient, userRegistered.toJson());
     return response;
     // model maps json response data to data class and otherwise
     // return UserRegisteredResponse.fromJson(response.data);
   }
 
+  Future<List<Camera>> getAllUserCamerasByDeviceSerial(String devSerial) async {
+    Response response = await getUserCamerasBySerial(apiClient, devSerial);
 
-  Future<List<Camera>> getAllUserCameras(String devSerial) async {
-    Response response = await getUserCameras(apiClient, devSerial);
-    
-    ///DERBU!!!!!!!!!!!!!!!!!
- logger.d(response);
-  //Meta klaida nes grazina tik kameras (Camera), o bandau priskirt ir irangini (UserCamerasResponse)
-  //bet kazkuriuo metu pasidaro prieinama inirenginio info : id, serial
+    logger.d("getAllUserCamerasByDeviceSerial response: ", response);
+
     return List<Camera>.from(
       (response.data).map((json) => Camera.fromJson(json)),
     );
+  }
+
+  Future<String> getUserDeviceSerialByEmail(String email) async {
+    Response response = await getDeviceSerialByEmail(apiClient, email);
+
+    var devSerial = response.data.toString();
+    logger.d("getUserDeviceSerialByEmail response: ", devSerial);
+    return devSerial;
+  }
+
+  Future<Response> updateCameraToActive(String camSerial) async {
+    return await cameraSetActive(apiClient, camSerial);
+  }
+  
+   Future<Response> updateCameraToInactive(String camSerial) async {
+    return await cameraSetInactive(apiClient, camSerial);
   }
 
   // Future<List<Framework>> fetchAllFrameworks() async {

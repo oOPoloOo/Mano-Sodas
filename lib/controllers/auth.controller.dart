@@ -100,25 +100,31 @@ class AuthController extends GetxController {
       dio.Response resp = await userRepo
           .loginUser(UserData(password: password, emailAddress: email));
 
+      //Isaugo naujai prisijungusio vartotojo duomenis
       if (localStorage.read("emailAddress").toString() !=
           emailController.text) {
         saveUserInfo(
-            email: emailController.text, pass: passwordController.text);
+            email: emailController.text,
+            pass: passwordController.text);
       }
 
       authenicated.value = true;
 
-      if (localStorage.read("deviceSerial").isEmpty) {
-        //gauti  kameras ir isaugot duomenis
-      } else {
-        var deviceSerial = localStorage.read("deviceSerial").toString();
-        //Idetas laikinai kol nesutvarkytas emimas is bazes jei nera duom
-        plantsController.getUserCameras(deviceSerial); // uzkraunu kameras
-      }
+      ///Perkelt i middle ware 
+      // if (localStorage.read("deviceSerial").isEmpty) {
+
+      //   var email = localStorage.read("emailAddress").toString();
+      //   plantsController.findDeviceSerialByUserEmail(email);
+
+      // } else {
+      //   var deviceSerial = localStorage.read("deviceSerial").toString();
+      //   //Idetas laikinai kol nesutvarkytas emimas is bazes jei nera duom
+      //   plantsController
+      //       .getUserCamerasBySerial(deviceSerial); // uzkraunu kameras
+      // }
 
       Get.offAll(HomeScreen());
       loadingVisible.value = false;
-
     } on dio.DioError catch (e) {
       //logger.d(e);
       loadingVisible.value = false;
@@ -128,8 +134,6 @@ class AuthController extends GetxController {
           "Klaidos kodas: ${e.response!.statusCode}");
     }
   }
-
-  findDeviceSerialByUserEmail(String email) async {}
 
   saveUserInfo(
       {String? email,
@@ -146,11 +150,7 @@ class AuthController extends GetxController {
     localStorage.write("streetAddress", streetAddressController.text);
   }
 
-  printData() {
-    print(nameController.text);
-    print(emailController.text);
-    print(passwordController.text);
-  }
+ 
 
   signOut() {
     //Isvalau saugykla

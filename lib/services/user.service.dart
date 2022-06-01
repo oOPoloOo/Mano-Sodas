@@ -1,6 +1,7 @@
 // ignore_for_file: unused_local_variable, dead_code
 
 import 'dart:io';
+import '../api/client.dart';
 import "../model/user.cameras.request.dart";
 import 'package:dio/dio.dart';
 
@@ -13,25 +14,44 @@ Future<Response> register(Dio dio, Map<String, dynamic> data) {
   return dio.post("users/create", data: data);
 }
 
-// Future<Response> getUserCameras(Dio dio) {
-//   return dio.post("device/camera/all/user");
-// }
-
-Future<Response> getUserCameras(Dio dio, String camSerialNumber) async {
-  // return dio.post("device/camera/all/user", data: camSerialNumber); 
-
-
-//Variantas 2
-  Response response = await dio.post("device/camera/all/user",
-    options: Options(headers: {
-      HttpHeaders.contentTypeHeader: "application/json",
-    }),
-    data: {'serialNumber': camSerialNumber}
-  );
+Future<Response> getUserCamerasBySerial(Dio dio, String devSerial) async {
+  Response response = await dio.post("device/camera/all/user/serial",
+      options: Options(headers: {
+        HttpHeaders.contentTypeHeader: "application/json",
+      }),
+      data: {'serialNumber': devSerial});
   return response;
-  // luzo: unexpected token M at json poziition 0 ? 
 }
 
+Future<Response> getDeviceSerialByEmail(Dio dio, String email) async {
+  Response response = await dio.post("users/email/deviceSerial/one",
+      options: Options(headers: {
+        HttpHeaders.contentTypeHeader: "application/json",
+      }),
+      data: {'emailAddress': email});
+  //logger.d("SERVICE: getDeviceSerialByEmail", response);
+  return response;
+}
+
+Future<Response> cameraSetActive(Dio dio, String camSerial) async {
+  Response response = await dio.post("device/camera/serial/update/isActive",
+      options: Options(headers: {
+        HttpHeaders.contentTypeHeader: "application/json",
+      }),
+      data: {'camSerialNumber': camSerial});
+      logger.d("SERVICE: cameraSetActive", response);
+      return response;
+}
+
+Future<Response> cameraSetInactive(Dio dio, String camSerial) async {
+  Response response = await dio.post("device/camera/serial/update/isInactive",
+      options: Options(headers: {
+        HttpHeaders.contentTypeHeader: "application/json",
+      }),
+      data: {'camSerialNumber': camSerial});
+      logger.d("SERVICE: cameraSetInactive", response);
+      return response;
+}
 
 // Future<Response> fetchAll(Dio dio) {
 //   return dio.get("/data/frameworks");

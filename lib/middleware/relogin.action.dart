@@ -22,6 +22,7 @@ class ReloginMiddleware extends GetMiddleware {
     //     : {};
 
     if (email.isNotEmpty && password.isNotEmpty) {
+      authController.authenicated.value = true;
       return const RouteSettings(name: homeRouteName);
     }
 

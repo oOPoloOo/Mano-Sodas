@@ -5,8 +5,11 @@ import 'package:mano_sodas_final/controllers/controllers.dart';
 import 'package:mano_sodas_final/constants/constants.dart';
 import 'package:get/get.dart' as getx;
 
+import '../page_interceptors/pages.interceptor.dart';
+
 class NavDrawer extends StatelessWidget {
   final AuthController authController = AuthController.to;
+  final  GoTo go = new GoTo();
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -30,7 +33,7 @@ class NavDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.photo_camera),
             title: Text('Augalai'),
-            onTap: () => getx.Get.toNamed(plantsRouteName),
+            onTap: () => go.Plants(),
           ),
           ListTile(
             leading: Icon(Icons.verified_user),
