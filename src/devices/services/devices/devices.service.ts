@@ -136,7 +136,7 @@ export class DevicesService {
         // return this.deviceRepository.findOne(v => v.serialNumber == serial)
     }
 
-    //Dirbu
+   
     async UpdateCameraName(camSerial: string, name: string) {
 
         const camera = await this.cameraRepository.findOne({

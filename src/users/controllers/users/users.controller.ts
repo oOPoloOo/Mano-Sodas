@@ -126,4 +126,17 @@ export class UsersController {
         const userCameras = this.devicesService.findAllCamerasByDevice(device);
         return userCameras;
     }
+
+     
+    @Post('email/deviceSerial/one')
+    async getUserDeviceSerialByEmail(@Req() req: Request) {
+
+        const stringFromJson =  req.body['emailAddress'];
+       
+        const user = await this.userService.getUserByEmail(stringFromJson);
+       // const device = await this.userService.getDeviceByUser(user);
+       const device = await this.devicesService.findDeviceByUser(user);
+       
+        return device.serialNumber;
+    }
 }

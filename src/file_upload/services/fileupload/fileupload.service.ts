@@ -61,7 +61,7 @@ export class FileUploadService {
   s3 = new AWS.S3
     ({
       accessKeyId: 'AKIAUIJZS3SS2LORSWUR',
-      secretAccessKey: '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',
+      secretAccessKey: '***',
     });
 
   async uploadFile(file, PhotoDTO) {
@@ -145,7 +145,7 @@ export class FileUploadService {
   // getS3() {
   //     return new S3({
   //         accessKeyId: 'AKIAUIJZS3SS2LORSWUR',
-  //         secretAccessKey: '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',
+  //         secretAccessKey: '***',
   //     });
   // }
 
@@ -159,7 +159,7 @@ export class FileUploadService {
   // const s3 = new AWS.S3();
   // AWS.config.update({
   //   accessKeyId: 'AKIAUIJZS3SS2LORSWUR',
-  //   secretAccessKey: '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' ,
+  //   secretAccessKey: '***' ,
   // });
 
   // async fileupload(@Req() req, @Res() res) {
