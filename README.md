@@ -2,12 +2,12 @@
 
 Short decription: this is full stack project for monotoring orchards. This project is not finished yet and is for learning purposes.<br/>
 <br/>
-Main frontend tools:<br/>
+Main frontend tools (this code is in frontend branch):<br/>
 Flutter<br/>
 Getx: for route and state management<br/>
 Dio<br/>
 <br/>
-Main backend tools <br/>
+Main backend tools (this code is in backend branch) <br/>
 Nest.JS <br/>
 AWS: S3 bucket, Lambda, API Gateway, RDS, CloudFormation <br/>
 TypeORM <br/>
