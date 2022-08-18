@@ -14,36 +14,72 @@ class PlantsController extends GetxController {
   UserRepository userRepo = Get.find();
   static PlantsController to = Get.find<PlantsController>();
 
-  List<Camera> camerasDeviceData = <Camera>[].obs;
-  var activeCamCnt = 0.obs;
+  List<Camera> camerasDeviceData = <Camera>[];
+  List<Camera> activeCameras = <Camera>[];
+  List<Camera> notActiveCameras = <Camera>[];
+  //var activeCamCnt = 0.obs;
+
+// naudosiu RXList list.assignAll(new list), -jei dedu visus elemt is kart
+  // kuri pakeicia visus esancius elementus naujais
+  void updateCameras() async {
+    activeCameras.clear();
+    notActiveCameras.clear();
+
+    for (var camera in camerasDeviceData) {
+      if (camera.assigned == true) {
+        activeCameras.add(camera);
+      }
+      if (camera.assigned == false) {
+        notActiveCameras.add(camera);
+      }
+    }
+    update();
+  }
 
   getUserCamerasBySerial(String devSerial) async {
     try {
-      //Cia nieko nepriskiria nes doumenys neateini iki model mappinimui
       camerasDeviceData =
           await userRepo.getAllUserCamerasByDeviceSerial(devSerial);
+
+      //update active/nonactive cameras list
+      updateCameras();
+
     } on dio.DioError catch (e) {
       PlantsScreen.showSnackBar(
-          // Future.doWhile(() => null)
           "Klaidos zinute: ${e.response!.data['message']}", // Taip prieinama klaidos resp data
           "Klaidos kodas: ${e.response!.statusCode}");
     }
   }
 
-
   findDeviceSerialByUserEmail(String email) async {
     try {
-      //Cia devSErial 15
-     String devSerial =  await userRepo.getUserDeviceSerialByEmail(email);   
-     return devSerial;
-      
+      String devSerial = await userRepo.getUserDeviceSerialByEmail(email);
+      return devSerial;
     } on dio.DioError catch (e) {
-       logger.d(e);
+      logger.d(e);
+    }
+  }
+
+  setCameraActive(String camSerial) async {
+    try {
+      var devSerial = await userRepo.updateCameraToActive(camSerial);
+      return devSerial;
+    } on dio.DioError catch (e) {
+      logger.d(e);
+    }
+  }
+
+  setCameraInactive(String email) async {
+    try {
+      var devSerial = await userRepo.updateCameraToInactive(email);
+      return devSerial;
+    } on dio.DioError catch (e) {
+      logger.d(e);
     }
   }
 
   clearCamerasData() {
-    //ISVALO KAMERU DUOMENIS    
+    //ISVALO KAMERU DUOMENIS
     camerasDeviceData.clear();
   }
 }

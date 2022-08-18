@@ -32,7 +32,10 @@ class GoTo {
       await plantsController.getUserCamerasBySerial(deviceSerial);
       //goToPage = true;
     }
-
+     // atnaujinu stebimus duomenis. Cia nereikia 
+     //kieviena kart siunciant uzklausa i serveri
+     //duomenys yra atnaujinami ir paciuose objektuose
+    //plantsController.updateCameras();
     //Gaves duomenis nukreipiu i puslapi
     Get.toNamed(plantsRouteName);
   }

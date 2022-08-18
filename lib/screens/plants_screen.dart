@@ -25,17 +25,17 @@ class PlantsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var camerasCnt = plantCon.camerasDeviceData.length;
-    var allCamerasList = plantCon.camerasDeviceData;
-    List<Camera> activeCamerasList = [];
+    // var camerasCnt = plantCon.camerasDeviceData.length;
+    // var allCamerasList = plantCon.camerasDeviceData;
+    //List<Camera> activeCamerasList = [];
 
-    for (var camera in allCamerasList) {
-      if (camera.assigned == true) {
-        activeCamerasList.add(camera);
-      }
-    }
+    // for (var camera in allCamerasList) {
+    //   if (camera.assigned == true) {
+    //     activeCamerasList.add(camera);
+    //   }
+    // }
 
-    var activeCamCnt = activeCamerasList.length;
+    // plantCon.activeCamCnt.value = activeCamerasList.length;
 
     return Scaffold(
       appBar: AppBar(
@@ -44,46 +44,59 @@ class PlantsScreen extends StatelessWidget {
       body: Column(children: <Widget>[
         Expanded(
           child: () {
-            if (activeCamCnt == 0) {
+            if (plantCon.activeCameras.isEmpty) {
               //
-              return ListView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemCount: activeCamCnt + 2, //
-                itemBuilder: (context, index) {
-                  if (index == 0) {
-                    return AddPlantListTile();
-                  }
-                  if (index == 1) {
-                    return Center(
-                      child: Column(
-                        children: const [
-                          SizedBox(width: 0, height: 250),
-                          Text(
-                            'Nėra kamerų priskirtų stebėti augalus',
-                            style: TextStyle(color: Colors.grey, fontSize: 20),
+              return GetBuilder<PlantsController>(
+                init: PlantsController(),
+               // initState: (_) {},
+                builder: (value) {
+                  return ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: value.activeCameras.length + 2, //
+                    itemBuilder: (context, index) {
+                      if (index == 0) {
+                        return AddPlantListTile();
+                      }
+                      if (index == 1) {
+                        return Center(
+                          child: Column(
+                            children: const [
+                              SizedBox(width: 0, height: 250),
+                              Text(
+                                'Nėra kamerų priskirtų stebėti augalus',
+                                style:
+                                    TextStyle(color: Colors.grey, fontSize: 20),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    );
-                  }
+                        );
+                      }
 
-                  index -= 2;
-                  return SizedBox(width: 0, height: 0);
+                      index -= 2;
+                      return SizedBox(width: 0, height: 0);
+                    },
+                  );
                 },
               );
             } else {
-              return ListView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemCount: activeCamCnt + 1, //
-                itemBuilder: (context, index) {
-                  if (index == 0) {
-                    return AddPlantListTile();
-                  }
+              return GetBuilder<PlantsController>(
+                //init: PlantsController(),
 
-                  index -= 1;
-                  return Plant(activeCamerasList, index);
+                builder: (value) {
+                  return ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: value.activeCameras.length + 1, //
+                    itemBuilder: (context, index) {
+                      if (index == 0) {
+                        return AddPlantListTile();
+                      }
+
+                      index -= 1;
+                      return Plant(value.activeCameras, index);
+                    },
+                  );
                 },
               );
             }

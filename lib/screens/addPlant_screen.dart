@@ -17,7 +17,7 @@ class AddPlantScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var camerasCnt = plantCon.camerasDeviceData.length;
-    var allCamerasList = plantCon.camerasDeviceData;  
+    var allCamerasList = plantCon.camerasDeviceData;
     List<Camera> activeCamerasList = [];
 
     for (var camera in allCamerasList) {
@@ -32,99 +32,75 @@ class AddPlantScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Pridėti augalą'),
       ),
-      body:
-        // width: MediaQuery.of(context).size.width,
-        // margin: EdgeInsets.all(10),
-        Column(
-          //Test container size
-          // width: double.infinity,
-          // height: double.infinity,
-          //  color: Colors.red,
-          children: <Widget>[
-            Container(child: InactiveCamerasListTile()),
-            Expanded(
-              flex: 8,
-              child: () {
-                if (camerasCnt == 0) {
-                  //
-                  return ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemCount: camerasCnt + 1, //2, //
-                    itemBuilder: (context, index) {
-                      // if (index == 0) {
-                      //  // return InactiveCamerasListTile();
-                      // }
-                      if (index == 0) {
-                        return Center(
-                          child: Column(
-                            children: const [
-                              SizedBox(width: 0, height: 250),
-                              Text(
-                                'Nėra kamerų nepriskirtų stebėti augalus',
-                                style:
-                                    TextStyle(color: Colors.grey, fontSize: 20),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
+      body: Column(
+        children: <Widget>[
+          Container(child: InactiveCamerasListTile()),
+          Expanded(
+            flex: 8,
+            child: () {
+              if (camerasCnt == 0) {
+                return ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: camerasCnt + 1,
+                  itemBuilder: (context, index) {
+                    if (index == 0) {
+                      return Center(
+                        child: Column(
+                          children: const [
+                            SizedBox(width: 0, height: 250),
+                            Text(
+                              'Nėra kamerų nepriskirtų stebėti augalus',
+                              style:
+                                  TextStyle(color: Colors.grey, fontSize: 20),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
 
-                      index -= 1; //index -= 2;
-                      return SizedBox(width: 0, height: 0);
-                    },
-                  );
-                } else {
-                  return ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemCount: camerasCnt, // + 1, //
-                    itemBuilder: (context, index) {
-                      // if (index == 0) {
-                      //    // return InactiveCamerasListTile();
-                      // }
-
-                      // index -= 1;
-                      return PlantAddScreenListTile(allCamerasList, index); //Plant(allCamerasList, index);
-                    },
-                  );
-                }
-              }(),
+                    index -= 1;
+                    return SizedBox(width: 0, height: 0);
+                  },
+                );
+              } else {
+                return ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: camerasCnt,
+                  itemBuilder: (context, index) {
+                    return PlantAddScreenListTile(allCamerasList, index);
+                  },
+                );
+              }
+            }(),
+          ),
+          Expanded(flex: 1, child: ListTile()),
+          Expanded(
+            flex: 8,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  margin: EdgeInsets.all(10),
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Center(child: () {
+                    if (camerasCnt != 0) {
+                      return Image(
+                        image: AssetImage('Images/appleTreeCroped.jpg'),
+                        height: 300,
+                        width: 300,
+                      );
+                    } else {
+                      return Text('Nuotraukų nėra');
+                    }
+                  }()),
+                ),
+              ],
             ),
-            Expanded(flex: 1, child: ListTile()),
-           
-            
-            Expanded(
-              flex: 8,
-              child:  Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    //width: MediaQuery.of(context).size.width,
-        margin: EdgeInsets.all(10),
-        padding: EdgeInsets.only(bottom: 10),
-                    child:  Center(
-                        child: () {
-                            if (camerasCnt != 0) {
-                              return  Image(
-                          image: AssetImage('Images/appleTreeCroped.jpg'),
-                          height: 300,
-                          width: 300,
-                        );
-                            }
-                          
-                        else  {return Text('Nuotraukų nėra');}  }()
-                        // Image.asset( 'Images/appleTree.jpg'),
-                      ),
-                    
-                  ),
-                ],
-              ),
-             
-            ),
-          ],
-        ),
-      
+          ),
+        ],
+      ),
     );
   }
 }
